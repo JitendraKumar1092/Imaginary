@@ -12,9 +12,31 @@ const Createpost = () => {
     prompt: "",
     photo: "",
   });
-  const generateImage = () => {
-    
+  const generateImage = async () => {
+    if (form.prompt) {
+      try {
+        setgeneratingImg(true);
+        const response = await fetch("http://localhost:8080/api/v1/imaginary", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ prompt: form.prompt }),
+        });
+        const data = await response.json();
+        const imgUrl = data.photo[0];
+        console.log(data.photo[0]);
+        setform({ ...form, photo: data.photo[0] });
+      } catch (error) {
+        alert(error);
+      } finally {
+        setgeneratingImg(false);
+      }
+    } else {
+      alert("Please enter a prompt");
+    }
   };
+
   const [generatingImg, setgeneratingImg] = useState(false);
   const [loading, setloading] = useState(false);
   const handleSubmit = () => {};
