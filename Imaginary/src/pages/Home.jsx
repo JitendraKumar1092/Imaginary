@@ -9,6 +9,7 @@ const RenderCards = ({ data, title }) => {
     <h2 className="mt-5 font-bold text-[#6449ff] text-xl uppercase">{title}</h2>
   );
 };
+// ehats it
 
 const Home = () => {
   const [loading, setLoading] = useState(false);

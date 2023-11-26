@@ -1,2 +1,5 @@
 ./Imaginary/node_moduls
 ./server/node_modules
+./Imaginary/.env
+./server/.env
+.env
