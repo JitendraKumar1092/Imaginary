@@ -39,7 +39,30 @@ const Createpost = () => {
 
   const [generatingImg, setgeneratingImg] = useState(false);
   const [loading, setloading] = useState(false);
-  const handleSubmit = () => {};
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (form.prompt && form.photo) {
+      setloading(true);
+      try {
+        const response = await fetch("http://localhost:8080/api/v1/post", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
+        });
+        await response.json();
+        navigate("/");
+      } catch (error) {
+        console.log(error);
+        alert(error);
+      } finally {
+        setloading(false);
+      }
+    } else {
+      alert("Please enter a prompt and generate an image first");
+    }
+  };
   const handleChange = (e) => {
     setform({ ...form, [e.target.name]: e.target.value });
   };
@@ -57,7 +80,7 @@ const Createpost = () => {
           share them with Community
         </p>
       </div>
-      <form className="mt-16 max-w-3xl " onSubmit={handleSubmit} action="">
+      <form className="mt-16 max-w-3xl " onSubmit={handleSubmit}>
         <div className="flex flex-col gap-5">
           <FormField
             lable="Your Name"
@@ -68,7 +91,7 @@ const Createpost = () => {
             handleChange={handleChange}
           />
           <FormField
-            lable="Promt"
+            label="Promt"
             type="text"
             name="prompt"
             placeholder="an armchair in the shape of an avocado"
@@ -124,5 +147,4 @@ const Createpost = () => {
     </section>
   );
 };
-
 export default Createpost;
